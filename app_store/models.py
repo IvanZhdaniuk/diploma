@@ -25,14 +25,14 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-class CastomUser(AbstractUser):
-    phone_number = models.CharField(max_length=14, blank=True)
-    email = models.EmailField(unique=True)
+# class CastomUser(AbstractUser):
+#     phone_number = models.CharField(max_length=14, blank=True)
+#     email = models.EmailField(unique=True)
 
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(CastomUser, on_delete=models.CASCADE)
+    # user = models.ForeignKey(CastomUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quality = models.PositiveBigIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -41,7 +41,7 @@ class Cart(models.Model):
         return self.user, self.product, self.quality, self.created_at
 
 class Order(models.Model):
-    user = models.ForeignKey(CastomUser, on_delete=models.CASCADE)
+    # user = models.ForeignKey(CastomUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quality = models.PositiveBigIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
