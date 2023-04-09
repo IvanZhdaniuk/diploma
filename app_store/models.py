@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
-    slag = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
 
     class Meta:

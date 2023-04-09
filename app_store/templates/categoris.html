@@ -11,7 +11,7 @@
   <h1>Product List</h1>
   <ul>
     {% for category in category %}
-      <li>{{ category.name }} - {{ category.description }}</li>
+      <li><a href="{% url 'product_list' category.slug %}">{{ category.name }}</a> - {{ category.description }}</li>
     {% endfor %}
   </ul>
 {% endblock %}
