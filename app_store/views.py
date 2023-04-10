@@ -6,6 +6,13 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import requests
+from django.shortcuts import render
+from django.http import JsonResponse
+
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from .forms import QuestionForm
 
 
 # Create your views here.
@@ -52,6 +59,7 @@ class DetailProductListView(ListAPIView):
         return render(request, self.template_name, context)
 
 
+
 class MainListView(ListAPIView):
     template_name ='main_page.html'
     permission_classes = (AllowAny, )
@@ -79,8 +87,30 @@ def process_message(request):
     response = {'status': 'success', 'result': 'Ответ на ваше сообщение'}
     return Response(response)
 
+
+
+# this func send message from manager to telegram
+def send_telegram(text: str):
+    # token = '5730541647:AAE5TzJfqUeXuPQ6XGm7L5f7cy_nuZYHdwQ'
+    newtoken = '5956279665:AAGl1G03Y2uxZmVG6-0afYujfbtuT2ySC1k'
+
+    channel_id = '1338444137'
+    url = f"https://api.telegram.org/bot{newtoken}/sendMessage?chat_id={channel_id}&text={text}"
+    print(requests.get(url))  # Эта строка отсылает сообщение
+
+
+# this func read the form and
 def chatbot(request):
-    return render(request, 'chatbot.html')
+    form = QuestionForm()
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            send_telegram('У вас новый вопрос: ' + str(form.cleaned_data['question']) + ' от '+ str(form.cleaned_data['name']) + ' нужно перезвонить на номер: '+str(form.cleaned_data['mobile_phone']))
+            # create sending messages from telegram
+            return HttpResponseRedirect('/store/category-all/')
+    return render(request, 'chatbot.html', {'form': form})
+
+
 
 class ContactListView(ListAPIView):
     template_name ='contact_sheet.html'
@@ -93,5 +123,23 @@ class NewstListView(ListAPIView):
     permission_classes = (AllowAny, )
     def get(self, request):
         return render(request, self.template_name)
+
+
+
+def send_message_to_bot(message):
+    bot_token = '5730541647:AAE5TzJfqUeXuPQ6XGm7L5f7cy_nuZYHdwQ'
+    chat_id = '173901673,124543434,143343455'
+    url = f'https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text={message}'
+    response = requests.get(url)
+    return response.json()
+
+def send_message(request):
+    if request.method == "POST":
+        message = request.POST.get("message")
+        # Perform some action with user input and get response from manager
+        response = "Response from manager"
+        send_message_to_bot(response)
+        return JsonResponse(response, safe=False)
+    return render(request, "chatbot.html")
 
 
