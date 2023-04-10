@@ -5,6 +5,20 @@
     <title>Title</title>
 </head>
 <body>
+{% extends 'base.html' %}
 
+{% block content %}
+  <h1>Cart</h1>
+  {% if cart.products.all %}
+    <ul>
+      {% for product in cart.products.all %}
+        <li>{{ product.name }} - {{ product.price }}</li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'remove_from_cart' product.slug %}">Remove from cart</a>
+  {% else %}
+    <p>Your cart is empty</p>
+  {% endif %}
+{% endblock %}
 </body>
 </html>

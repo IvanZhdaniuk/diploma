@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .serializers import CategorySerializer, ProductSerializer
-from .models import Category, Product
+from .models import Category, Product, Cart
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 
 # Create your views here.
 
@@ -42,7 +46,6 @@ class DetailProductListView(ListAPIView):
     permission_classes = (AllowAny, )
 
     def get(self, request, slug):
-
         product = self.get_queryset().get(slug=slug)
         serializer = self.get_serializer(product)
         context = {'product': serializer.data}
@@ -50,11 +53,45 @@ class DetailProductListView(ListAPIView):
 
 
 class MainListView(ListAPIView):
-
     template_name ='main_page.html'
     permission_classes = (AllowAny, )
     def get(self, request):
-
-
         return render(request, self.template_name)
+@login_required
+def add_cart(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    cart, created =Cart.objects.get_or_create(user=request.user)
+    cart.product.add(product)
+    return redirect('cart')
+
+@login_required
+def remove_from_cart(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    cart, created = Cart.objects.get_or_create(User=request.user)
+    cart.product.remve(product)
+    return redirect('cart')
+
+
+@api_view(['POST'])
+def process_message(request):
+    message = request.data.get('message')
+    # обработка сообщения
+    response = {'status': 'success', 'result': 'Ответ на ваше сообщение'}
+    return Response(response)
+
+def chatbot(request):
+    return render(request, 'chatbot.html')
+
+class ContactListView(ListAPIView):
+    template_name ='contact_sheet.html'
+    permission_classes = (AllowAny, )
+    def get(self, request):
+        return render(request, self.template_name)
+
+class NewstListView(ListAPIView):
+    template_name ='news_compani.html'
+    permission_classes = (AllowAny, )
+    def get(self, request):
+        return render(request, self.template_name)
+
 

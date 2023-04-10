@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User, AbstractUser
 
 # Create your models here.
 
@@ -25,14 +25,14 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-# class CastomUser(AbstractUser):
+# class User(AbstractUser):
 #     phone_number = models.CharField(max_length=14, blank=True)
 #     email = models.EmailField(unique=True)
 
 
 
 class Cart(models.Model):
-    # user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quality = models.PositiveBigIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -49,3 +49,4 @@ class Order(models.Model):
 
     def __str__(self):
         return self.id
+
