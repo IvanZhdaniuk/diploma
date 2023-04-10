@@ -34,7 +34,27 @@ class ProductListView(ListAPIView):
         context = {'products': products, 'category': category}
         return render(request, self.template_name, context)
 
-        # products = Product.objects.filter(category=category)
-        # serializer = self.get_serializer(products, many=True)
-        # context = {'products': serializer.data, 'category': category}
-        # return render(request, self.template_name, context)
+class DetailProductListView(ListAPIView):
+
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    template_name ='product_detail.html'
+    permission_classes = (AllowAny, )
+
+    def get(self, request, slug):
+
+        product = self.get_queryset().get(slug=slug)
+        serializer = self.get_serializer(product)
+        context = {'product': serializer.data}
+        return render(request, self.template_name, context)
+
+
+class MainListView(ListAPIView):
+
+    template_name ='main_page.html'
+    permission_classes = (AllowAny, )
+    def get(self, request):
+
+
+        return render(request, self.template_name)
+

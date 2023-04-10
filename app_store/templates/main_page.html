@@ -1,10 +1,60 @@
+
+{% load static %}
 <!DOCTYPE html>
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <html lang="en">
 <head>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Главная страница</title>
 </head>
+  <body>
+    <nav>
+        <a href="{% url 'main' %}">Главная</a>
+        <a href="{% url 'category' %}">Товары</a>
+        <a href="{% url 'category' %}">Корзина</a>
+        <a href="{% url 'category' %}">Контакты</a>
+        <a href="{% url 'category' %}">Новости компании</a>
+    </nav>
+</body>
 <body>
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <img src="/products/slide/1643965928_5-phonoteka-org-p-fon-dlya-prezentatsii-elektronika-5.jpg" alt="Slide 1">
+    </div>
+    <div class="swiper-slide">
+      <img src="/products/slide/1643965945_13-phonoteka-org-p-fon-dlya-prezentatsii-elektronika-14.jpg" alt="Slide 2">
+    </div>
+    <div class="swiper-slide">
+      <img src="/products/slide/1643965953_36-phonoteka-org-p-fon-dlya-prezentatsii-elektronika-39.png" alt="Slide 3">
+    </div>
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+</body>
+<script>
+var mySwiper = new Swiper('.swiper-container', {
+  // Настройки слайдера
+  slidesPerView: 1,
+  loop: true,
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+});
+</script>
+<body>
+<h1>Найдите все необходимое для электромонтажа в нашем магазине.</h1>
+<h2>Широкий ассортимент электрооборудования, профессиональная консультация и быстрая доставка по всей стране.</h2>
 
 </body>
 </html>
