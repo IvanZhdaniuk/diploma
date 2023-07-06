@@ -6,6 +6,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+<<<<<<< HEAD
 import requests
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -13,6 +14,8 @@ from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import QuestionForm
+=======
+>>>>>>> IvanZhdaniuk/master
 
 
 # Create your views here.
@@ -59,7 +62,10 @@ class DetailProductListView(ListAPIView):
         return render(request, self.template_name, context)
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> IvanZhdaniuk/master
 class MainListView(ListAPIView):
     template_name ='main_page.html'
     permission_classes = (AllowAny, )
@@ -87,12 +93,13 @@ def process_message(request):
     response = {'status': 'success', 'result': 'Ответ на ваше сообщение'}
     return Response(response)
 
+<<<<<<< HEAD
 
 
 # this func send message from manager to telegram
 def send_telegram(text: str):
-    # token = '5730541647:AAE5TzJfqUeXuPQ6XGm7L5f7cy_nuZYHdwQ'
-    newtoken = '5956279665:AAGl1G03Y2uxZmVG6-0afYujfbtuT2ySC1k'
+    # token = ''
+    newtoken = ''
 
     channel_id = '1338444137'
     url = f"https://api.telegram.org/bot{newtoken}/sendMessage?chat_id={channel_id}&text={text}"
@@ -114,10 +121,24 @@ def chatbot(request):
 
 class ContactListView(ListAPIView):
     template_name ='contact_sheet.html'
+=======
+def chatbot(request):
+    return render(request, 'chatbot.html')
+
+class ContactListView(ListAPIView):
+    template_name ='contact_sheet.html'
     permission_classes = (AllowAny, )
     def get(self, request):
         return render(request, self.template_name)
 
+class NewstListView(ListAPIView):
+    template_name ='news_compani.html'
+>>>>>>> IvanZhdaniuk/master
+    permission_classes = (AllowAny, )
+    def get(self, request):
+        return render(request, self.template_name)
+
+<<<<<<< HEAD
 class NewstListView(ListAPIView):
     template_name ='news_compani.html'
     permission_classes = (AllowAny, )
@@ -127,7 +148,7 @@ class NewstListView(ListAPIView):
 
 
 def send_message_to_bot(message):
-    bot_token = '5730541647:AAE5TzJfqUeXuPQ6XGm7L5f7cy_nuZYHdwQ'
+    bot_token = ''
     chat_id = '173901673,124543434,143343455'
     url = f'https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text={message}'
     response = requests.get(url)
@@ -142,4 +163,6 @@ def send_message(request):
         return JsonResponse(response, safe=False)
     return render(request, "chatbot.html")
 
+=======
+>>>>>>> IvanZhdaniuk/master
 
